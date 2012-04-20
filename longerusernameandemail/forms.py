@@ -2,7 +2,9 @@ from django.utils.translation import ugettext as _
 from django.core.validators import MaxLengthValidator
 from django.contrib.auth import forms as auth_forms
 
-from longerusername import MAX_USERNAME_LENGTH
+
+from longerusernameandemail import MAX_USERNAME_LENGTH
+
 
 def update_field_length(field):
     field.widget.attrs['maxlength'] = MAX_USERNAME_LENGTH()
@@ -17,17 +19,20 @@ def update_field_length(field):
         if isinstance(v, MaxLengthValidator):
             v.limit_value = MAX_USERNAME_LENGTH()
 
+
 class UserCreationForm(auth_forms.UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
         update_field_length(self.fields['username'])
         update_field_length(self.fields['email'])
 
+
 class UserChangeForm(auth_forms.UserChangeForm):
     def __init__(self, *args, **kwargs):
         super(UserChangeForm, self).__init__(*args, **kwargs)
         update_field_length(self.fields['username'])
         update_field_length(self.fields['email'])
+
 
 class AuthenticationForm(auth_forms.AuthenticationForm):
     def __init__(self, *args, **kwargs):

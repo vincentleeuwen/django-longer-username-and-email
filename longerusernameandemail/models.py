@@ -1,7 +1,7 @@
 from django.core.validators import MaxLengthValidator
 from django.db.models.signals import class_prepared
 from django.utils.translation import ugettext as _
-from longerusername import MAX_USERNAME_LENGTH
+from longerusernameandemail import MAX_USERNAME_LENGTH
 
 
 def longer_username_and_email_signal(sender, *args, **kwargs):
@@ -10,6 +10,7 @@ def longer_username_and_email_signal(sender, *args, **kwargs):
         patch_user_model_username(sender)
         patch_user_model_email(sender)
 class_prepared.connect(longer_username_and_email_signal)
+
 
 def patch_user_model_username(model):
     field = model._meta.get_field("username")
@@ -25,6 +26,7 @@ def patch_user_model_username(model):
         if isinstance(v, MaxLengthValidator):
             v.limit_value = MAX_USERNAME_LENGTH()
 
+
 def patch_user_model_email(model):
     field = model._meta.get_field("email")
 
@@ -38,6 +40,7 @@ def patch_user_model_email(model):
     for v in field.validators:
         if isinstance(v, MaxLengthValidator):
             v.limit_value = MAX_USERNAME_LENGTH()
+
 
 from django.contrib.auth.models import User
 
