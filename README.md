@@ -1,27 +1,27 @@
-`django-longer-username` provides a migration and a monkeypatch to make the django auth.user username field longer, instead of the arbitrarily short 30 characters. 
+`django-longerusernameandemail` provides a migration and a monkeypatch to make the django auth.user username and email fields longer, instead of the arbitrarily short 30 and 75 characters. 
 
 It's designed to be a simple include-and-forget project that makes a little headache go away.  Enjoy, and pull requests welcome!
 
 Usage
 =====
-Step 1. Install django-longer-username. 
+Step 1. Install django-longerusernameandemail. 
 -------------------------------------
 
-- `pip install longerusername` 
+- `pip install django-longerusernameandemail` 
 
 You will also need to install [south]() to use the migration. 
 
  - `pip install south` 
 
 
-Step 2. Add `longerusername` to your installed apps.
+Step 2. Add `longerusernameandemail` to your installed apps.
 -------------------------
-Add 'longerusername' to the top of your `INSTALLED_APPS` in settings.py
+Add 'longerusernameandemail' to the top of your `INSTALLED_APPS` in settings.py
 
 settings.py
 
 ```python
-INSTALLED_APPS = ("longerusername",) + INSTALLED_APPS
+INSTALLED_APPS = ("longerusernameandemail",) + INSTALLED_APPS
 ```
 
 Step 3. (Optional) Specify a custom username length
@@ -39,7 +39,7 @@ MAX_USERNAME_LENGTH = 100  # optional, default is 255.
 Step 4. Run the migration
 ------------------------------------------------
 ```
-$ python manage.py migrate longerusername
+$ python manage.py migrate longerusernameandemail
 ```
 
 That's it, you should be good to go!
@@ -54,7 +54,7 @@ It provides a suitable replacement for the standard AuthenticationForm as well, 
 urls.py
 
 ```python
-from longerusername.forms import AuthenticationForm
+from longerusernameandemail.forms import AuthenticationForm
 
 urlpatterns = patterns('',
     # ...
