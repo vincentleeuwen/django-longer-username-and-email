@@ -2,7 +2,7 @@
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
-from longerusername import MAX_USERNAME_LENGTH
+from longerusernameandemail import MAX_USERNAME_LENGTH
 
 class Migration(SchemaMigration):
 
@@ -23,7 +23,7 @@ class Migration(SchemaMigration):
         db.create_index('auth_user', ['email'], unique=False)
 
     models = {
-        
+
     }
 
     complete_apps = ['django_monkeypatches']
