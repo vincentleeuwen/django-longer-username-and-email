@@ -10,8 +10,8 @@ def update_field_length(field, length):
     field.widget.attrs['maxlength'] = length
     field.max_length = length
     field.help_text = _("Required, %s characters or fewer. Only letters, "
-                        "numbers, and characters such as @.+_- are "
-                        "allowed." % length)
+                        "numbers, and @, ., +, -, or _ "
+                        "characters." % length)
 
     # we need to find the MaxLengthValidator and change its
     # limit_value otherwise the auth forms will fail validation
