@@ -4,6 +4,13 @@ import string
 from django.contrib.auth.models import User
 from django.test import TestCase
 
+from longerusernameandemail.forms import UserCreationForm
+
+
+def get_random_string(alpha=string.ascii_letters, length=100):
+    "Get a 'long', randmon string"
+    return ''.join([random.choice(alpha) for i in range(length)])
+
 
 class LongerUsernameAndEmailTests(TestCase):
     """
@@ -32,6 +39,47 @@ class LongerUsernameAndEmailTests(TestCase):
         User.objects.get(id=self.user.id)
 
 
+class LongerUsernameAndEmailFormTests(TestCase):
+    """
+    Unit tests for longerusernameandemail forms.
+    """
+
+    def setUp(self):
+        # create a user with long username & email
+        self.user = User.objects.create_user(
+            'test%s' % get_random_string(),
+            '%s@example.com' % get_random_string(),
+            'testpassword',
+        )
+
+    def test_valid_new_user(self):
+        "test a new user with a long username and long email is valid"
+        data = {
+            'username': get_random_string(),
+            'email': '%s@example2.com' % get_random_string(),
+            'password1': 'test',
+            'password2': 'test',
+        }
+        form = UserCreationForm(data)
+        self.assertTrue(form.is_valid())
+
+    def test_invalid_new_user_email_collision(self):
+        """
+        test we can't create a new user with the same email as an
+        existing user
+        """
+        data = {
+            'username': 'anything',
+            'email': self.user.email,
+            'password1': 'test',
+            'password2': 'test',
+        }
+        form = UserCreationForm(data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('email', form.errors)
+        self.assertIn('already exists', form.errors['email'][0])
+
+
 class LongerUsernameAndEmailAdminTests(TestCase):
     """
     Functional tests for the django admin when longerusernameandemail
@@ -46,23 +94,19 @@ class LongerUsernameAndEmailAdminTests(TestCase):
     def setUp(self):
         # create two users with long usernames & emails
         self.user1 = User.objects.create_user(
-            'test%s' % self._get_long(),
-            '%s@example.com' % self._get_long(),
+            'test%s' % get_random_string(),
+            '%s@example.com' % get_random_string(),
             'testpassword',
         )
         self.user2 = User.objects.create_user(
-            'test%s' % self._get_long(),
-            '%s@example.com' % self._get_long(),
+            'test%s' % get_random_string(),
+            '%s@example.com' % get_random_string(),
             'testpassword',
         )
 
         # create superuser to do the actions, and log in as them
         User.objects.create_superuser(self.email, self.email, self.password)
         self.client.login(username=self.email, password=self.password)
-
-    def _get_long(self, alpha=string.ascii_letters, length=100):
-        "get a long, randmon string"
-        return ''.join([random.choice(alpha) for i in range(length)])
 
     def test_read_user_list(self):
         "test we can read the list of users in the admin"
@@ -79,8 +123,8 @@ class LongerUsernameAndEmailAdminTests(TestCase):
         "test we can create a new user using the admin"
         org_user_count = User.objects.count()
         resp = self.client.post('/admin/auth/user/add/', data={
-            'username': 'test{}@example.com'.format(self._get_long()),
-            'email': 'test{}@example.com'.format(self._get_long()),
+            'username': 'test{}@example.com'.format(get_random_string()),
+            'email': 'test{}@example.com'.format(get_random_string()),
             'password1': 'test',
             'password2': 'test',
         })
@@ -89,7 +133,7 @@ class LongerUsernameAndEmailAdminTests(TestCase):
 
     def test_edit_user(self):
         "test we can edit a particular user using the admin"
-        new_email = 'test{}@example.com'.format(self._get_long())
+        new_email = 'test{}@example.com'.format(get_random_string())
         url = '/admin/auth/user/{}/'.format(self.user1.pk)
         resp = self.client.post(url, {
             'username': new_email,

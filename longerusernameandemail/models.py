@@ -31,6 +31,7 @@ def patch_user_model_email(model):
     field = model._meta.get_field("email")
 
     field.blank = False
+    field._unique = True
     field.max_length = MAX_USERNAME_LENGTH()
     field.help_text = _("Required, %s characters or fewer. Only letters, "
                         "numbers, and @, ., +, -, or _ "
