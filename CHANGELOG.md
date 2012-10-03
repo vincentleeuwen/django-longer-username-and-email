@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.5.5
+-----
+* Fixed UserCreationForm not handling unique as User's email field was not set to unique (didn't match the database).
+
+-- mfogel
+
 0.5.4
 -----
 The django admin 'create user' page is currently broken on a clean django install using longerusernameandemail. These three commits fix it up:
