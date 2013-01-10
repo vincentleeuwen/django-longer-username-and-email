@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.5.6
+-----
+* Changed uniqueness of email to be a setting, `REQUIRE_UNIQUE_EMAIL`.  Default is still True.
+* Updates readme to list all settings.
+
+-- skoczen
+
 0.5.5
 -----
 * Fixed UserCreationForm not handling unique as User's email field was not set to unique (didn't match the database).

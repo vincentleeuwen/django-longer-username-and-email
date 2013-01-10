@@ -1,7 +1,7 @@
 from django.core.validators import MaxLengthValidator
 from django.db.models.signals import class_prepared
 from django.utils.translation import ugettext as _
-from longerusernameandemail import MAX_USERNAME_LENGTH
+from longerusernameandemail import MAX_USERNAME_LENGTH, REQUIRE_UNIQUE_EMAIL
 
 
 def longer_username_and_email_signal(sender, *args, **kwargs):
@@ -31,7 +31,7 @@ def patch_user_model_email(model):
     field = model._meta.get_field("email")
 
     field.blank = False
-    field._unique = True
+    field._unique = REQUIRE_UNIQUE_EMAIL()
     field.max_length = MAX_USERNAME_LENGTH()
     field.help_text = _("Required, %s characters or fewer. Only letters, "
                         "numbers, and @, ., +, -, or _ "

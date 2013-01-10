@@ -24,14 +24,16 @@ settings.py
 INSTALLED_APPS = ("longerusernameandemail",) + INSTALLED_APPS
 ```
 
-Step 3. (Optional) Specify a custom username length
-------------------------------------------------
-If you want to specify a custom length, add it to settings.py. The default is 255 characters.
+Step 3. (Optional) Specify a custom username length, or other settings.
+-----------------------------------------------------------------------
+If you want custom behavior, you can specify the following in settings.py
 
 settings.py
 
 ```python
 MAX_USERNAME_LENGTH = 100  # optional, default is 255.
+MAX_EMAIL_LENGTH = 50  # optional, default is 255.
+REQUIRE_UNIQUE_EMAIL = False  # optional, default is True
 ```
 
 
