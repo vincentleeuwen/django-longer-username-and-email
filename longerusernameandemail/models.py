@@ -1,6 +1,6 @@
 from django.core.validators import MaxLengthValidator
 from django.db.models.signals import class_prepared
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from longerusernameandemail import MAX_USERNAME_LENGTH, REQUIRE_UNIQUE_EMAIL
 
 
