@@ -9,7 +9,7 @@ SOURCE_DIR = os.path.join(ROOT_DIR)
 
 setup(
     name="django-longerusernameandemail",
-    version="0.5.6",
+    version="0.5.7",
     packages=find_packages(),
     zip_safe=False,
     description=("django-longerusernameandemail provides a migration and a "
